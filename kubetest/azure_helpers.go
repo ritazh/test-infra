@@ -82,6 +82,7 @@ type OrchestratorProfile struct {
 
 type MasterProfile struct {
 	Count          int                 `json:"count"`
+	Distro         string              `json:"distro"`
 	DNSPrefix      string              `json:"dnsPrefix"`
 	VMSize         string              `json:"vmSize" validate:"required"`
 	IPAddressCount int                 `json:"ipAddressCount,omitempty"`
@@ -92,6 +93,7 @@ type AgentPoolProfile struct {
 	Name                  string              `json:"name"`
 	Count                 int                 `json:"count"`
 	VMSize                string              `json:"vmSize"`
+	Distro                string              `json:"distro"`
 	OSType                string              `json:"osType,omitempty"`
 	AvailabilityProfile   string              `json:"availabilityProfile"`
 	IPAddressCount        int                 `json:"ipAddressCount,omitempty"`

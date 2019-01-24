@@ -199,7 +199,11 @@ func (c *Cluster) populateApiModelTemplate() error {
 	} else {
 		return fmt.Errorf("No template file specified %v", err)
 	}
-
+	// set default distro so we do not use prebuilt os image
+	v.Properties.MasterProfile.Distro = "ubuntu"
+	for _, agentPool := range v.Properties.AgentPoolProfiles {
+		agentPool.Distro = "ubuntu"
+	}
 	// replace APIModel template properties from flags
 	if c.location != "" {
 		v.Location = c.location

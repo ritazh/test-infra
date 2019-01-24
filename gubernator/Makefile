@@ -13,7 +13,7 @@
 # limitations under the License.
 
 VERSION := $(shell date +v%Y%m%d)-$(shell git describe --tags --always --dirty)
-PROJECT ?= k8s-gubernator
+PROJECT ?= kubernetes-211319#k8s-gubernator
 
 # TODO(fejta): convert these to bazel rules
 
@@ -21,8 +21,8 @@ PROJECT ?= k8s-gubernator
 all: versions
 
 deploy:
-	gcloud app deploy --version="$(VERSION)" --project="$(PROJECT)" --no-promote --quiet
-	cd github && gcloud app deploy --version="$(VERSION)" --project="$(PROJECT)" --no-promote --quiet
+	gcloud app deploy --version="$(VERSION)" --project="$(PROJECT)" --quiet
+	cd github && gcloud app deploy --version="$(VERSION)" --project="$(PROJECT)" --quiet
 
 # This is a weird one. It's a global setting that's *not* versioned.
 cron:

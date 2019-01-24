@@ -167,7 +167,7 @@ func newAcsEngine() (*Cluster, error) {
 		networkPlugin:           *acsNetworkPlugin,
 		acsCustomHyperKubeURL:   "",
 		acsCustomWinBinariesURL: "",
-		acsEngineBinaryPath:     "acs-engine", // use the one in path by default
+		acsEngineBinaryPath:     "aks-engine", // use the one in path by default
 	}
 	c.getAzCredentials()
 	err = c.getARMClient(c.ctx)
@@ -258,7 +258,7 @@ func (c *Cluster) populateApiModelTemplate() error {
 }
 
 func (c *Cluster) getAcsEngine(retry int) error {
-	downloadPath := path.Join(os.Getenv("HOME"), "acs-engine.tar.gz")
+	downloadPath := path.Join(os.Getenv("HOME"), "aks-engine.tar.gz")
 	f, err := os.Create(downloadPath)
 	if err != nil {
 		return err
@@ -298,7 +298,7 @@ func (c *Cluster) getAcsEngine(retry int) error {
 	if err = control.FinishRunning(exec.Command("tar", "-xzf", f.Name(), "--strip", "1")); err != nil {
 		return err
 	}
-	c.acsEngineBinaryPath = path.Join(cwd, "acs-engine")
+	c.acsEngineBinaryPath = path.Join(cwd, "aks-engine")
 	return nil
 
 }
@@ -385,11 +385,11 @@ func (c *Cluster) buildHyperKube() error {
 
 	cwd, _ := os.Getwd()
 	log.Printf("CWD %v", cwd)
-	log.Printf("Attempt docker gcloud login")
-	prepareDocker := util.K8s("gcloud", "auth", "configure-docker")
-	if err := control.FinishRunning(exec.Command(prepareDocker)); err != nil {
-		return err
-	}
+	//log.Printf("Attempt docker gcloud login")
+	//prepareDocker := util.K8s("gcloud", "auth", "configure-docker")
+	//if err := control.FinishRunning(exec.Command(prepareDocker)); err != nil {
+	//	return err
+	//}
 	pushHyperkube := util.K8s("kubernetes", "hack", "dev-push-hyperkube.sh")
 	if err1 := control.FinishRunning(exec.Command(pushHyperkube)); err1 != nil {
 		return err1

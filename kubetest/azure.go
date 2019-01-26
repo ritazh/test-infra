@@ -389,18 +389,34 @@ func (c *Cluster) buildHyperKube() error {
 
 	cwd, _ := os.Getwd()
 	log.Printf("CWD %v", cwd)
-	//log.Printf("Attempt docker gcloud login")
-	//prepareDocker := util.K8s("gcloud", "auth", "configure-docker")
-	//if err := control.FinishRunning(exec.Command(prepareDocker)); err != nil {
-	//	return err
-	//}
+	
+	username := os.Getenv("DOCKER_USERNAME")
+	password_file := os.Getenv("DOCKER_PASSWORD_FILE")
+	password, err := ioutil.ReadFile(password_file)
+	if err != nil {
+		return fmt.Errorf("Error reading docker passowrd file file %v %v.", password_file, err)
+	}
+
+	log.Printf("Attempt docker login.")
+	cmd := exec.Command("docker", "login", fmt.Sprintf("--username=%s", username), fmt.Sprintf("--password=%s", strings.TrimSuffix(string(password), "\n")))
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("Docker login failed with error: %v.", err)
+	}
+	log.Printf("Docker login success.")
+	log.Printf("Building Hyperkube.")
+	
 	pushHyperkube := util.K8s("kubernetes", "hack", "dev-push-hyperkube.sh")
 	if err1 := control.FinishRunning(exec.Command(pushHyperkube)); err1 != nil {
 		return err1
 	}
 	c.acsCustomHyperKubeURL = fmt.Sprintf("%s/hyperkube-amd64:%s", os.Getenv("REGISTRY"), os.Getenv("VERSION"))
 
-	log.Printf("Custom hyperkube url: %v", c.acsCustomHyperKubeURL)
+	log.Printf("Docker logout")
+	cmd = exec.Command("docker", "logout")
+	if err := cmd.Run(); err != nil {
+		log.Printf("Docker logout failed.")
+	}
+	log.Printf("Custom hyperkube url: %v .", c.acsCustomHyperKubeURL)
 	return nil
 }
 

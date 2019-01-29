@@ -195,6 +195,7 @@ func (c *Cluster) generateTemplate() error {
 			},
 			MasterProfile: &MasterProfile{
 				Count:          1,
+				Distro:         "ubuntu",
 				DNSPrefix:      c.dnsPrefix,
 				VMSize:         *acsMasterVmSize,
 				IPAddressCount: 200,
@@ -209,6 +210,7 @@ func (c *Cluster) generateTemplate() error {
 					Name:                "agentpool0",
 					VMSize:              *acsAgentVmSize,
 					Count:               *acsAgentPoolCount,
+					Distro:              "ubuntu",
 					OSType:              *acsAgentOSType,
 					AvailabilityProfile: "AvailabilitySet",
 					IPAddressCount:      200,

@@ -12,5 +12,5 @@ default_org: ritazh
 default_repo: kubernetes
 jobs:
   kubernetes-azure/pr-logs/directory/:
-  - pull-kubernetes-e2e-azure
+  - pull-kubernetes-e2e-aks-engine-azure
 recursive_artifacts: false

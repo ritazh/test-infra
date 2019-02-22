@@ -2,7 +2,7 @@
 default_external_services:
   gcs_bucket: kubernetes-azure/
   gcs_pull_prefix: kubernetes-azure/pr-logs/pull
-  prow_url: "40.67.190.149"
+  prow_url: "13.77.181.53"
   spyglass: true
 external_services:
   istio:
@@ -13,4 +13,8 @@ default_repo: kubernetes
 jobs:
   kubernetes-azure/pr-logs/directory/:
   - pull-kubernetes-e2e-aks-engine-azure
+  kubernetes-azure/pr-logs/:
+  - ci-kubernetes-e2e-aks-engine-azure-master-windows
+  kubernetes-azure/logs/:
+  - ci-kubernetes-e2e-aks-engine-azure-master-windows
 recursive_artifacts: false

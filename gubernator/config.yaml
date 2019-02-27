@@ -1,20 +1,19 @@
 ---
 default_external_services:
-  gcs_bucket: kubernetes-azure/
-  gcs_pull_prefix: kubernetes-azure/pr-logs/pull
+  gcs_bucket: kubernetes-upstream/
+  gcs_pull_prefix: kubernetes-upstream/pr-logs/pull
   prow_url: "13.77.181.53"
   spyglass: true
 external_services:
   istio:
     gcs_pull_prefix: istio-prow/pull
     prow_url: prow.istio.io
-default_org: ritazh
+default_org: Azure
 default_repo: kubernetes
 jobs:
-  kubernetes-azure/pr-logs/directory/:
+  kubernetes-upstream/pr-logs/directory/:
   - pull-kubernetes-e2e-aks-engine-azure
-  kubernetes-azure/pr-logs/:
+  kubernetes-upstream/logs/:
   - ci-kubernetes-e2e-aks-engine-azure-master-windows
-  kubernetes-azure/logs/:
-  - ci-kubernetes-e2e-aks-engine-azure-master-windows
+  - ci-kubernetes-e2e-aks-engine-azure-master-windows-parallel
 recursive_artifacts: false

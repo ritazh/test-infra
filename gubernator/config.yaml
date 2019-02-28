@@ -13,7 +13,6 @@ default_repo: kubernetes
 jobs:
   kubernetes-upstream/pr-logs/directory/:
   - pull-kubernetes-e2e-aks-engine-azure
-  kubernetes-upstream/logs/:
   - ci-kubernetes-e2e-aks-engine-azure-master-windows
   - ci-kubernetes-e2e-aks-engine-azure-master-windows-parallel
 recursive_artifacts: false

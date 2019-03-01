@@ -79,6 +79,7 @@ type WindowsProfile struct {
 type KubernetesConfig struct {
 	CustomWindowsPackageURL    string `json:"customWindowsPackageURL,omitempty"`
 	CustomHyperkubeImage       string `json:"customHyperkubeImage,omitempty"`
+	CustomCcmImage             string `json:"customCcmImage,omitempty"` // Image for cloud-controller-manager
 	NetworkPlugin              string `json:"networkPlugin,omitempty"`
 	PrivateAzureRegistryServer string `json:"privateAzureRegistryServer,omitempty"`
 	AzureCNIURLLinux           string `json:"azureCNIURLLinux,omitempty"`

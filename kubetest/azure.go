@@ -58,7 +58,7 @@ var (
 	acsSSHPublicKeyPath    = flag.String("acsengine-public-key", "", "Path to SSH Public Key")
 	acsWinBinaries         = flag.Bool("acsengine-win-binaries", false, "Set to True if you want kubetest to build a custom zip with windows binaries for aks-engine")
 	acsHyperKube           = flag.Bool("acsengine-hyperkube", false, "Set to True if you want kubetest to build a custom hyperkube for aks-engine")
-	acsCCm                 = flag.Bool("acsengine-ccm", false, "Set to True if you want kubetest to build a custom cloud controller manager for aks-engine")
+	acsCcm                 = flag.Bool("acsengine-ccm", false, "Set to True if you want kubetest to build a custom cloud controller manager for aks-engine")
 	acsCredentialsFile     = flag.String("acsengine-creds", "", "Path to credential file for Azure")
 	acsOrchestratorRelease = flag.String("acsengine-orchestratorRelease", "", "Orchestrator Profile for acs-engine")
 	acsWinZipBuildScript   = flag.String("acsengine-winZipBuildScript", "https://raw.githubusercontent.com/Azure/acs-engine/master/scripts/build-windows-k8s.sh", "Build script to create custom zip containing win binaries for acs-engine")

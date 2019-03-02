@@ -275,6 +275,8 @@ func (c *Cluster) populateApiModelTemplate() error {
 		v.Properties.OrchestratorProfile.KubernetesConfig.CustomWindowsPackageURL = c.acsCustomWinBinariesURL
 	}
 	if c.acsCustomCcmURL != "" {
+		useCloudControllerManager := true
+		v.Properties.OrchestratorProfile.KubernetesConfig.UseCloudControllerManager = &useCloudControllerManager
 		v.Properties.OrchestratorProfile.KubernetesConfig.CustomCcmImage = c.acsCustomCcmURL
 	}
 	apiModel, _ := json.MarshalIndent(v, "", "    ")

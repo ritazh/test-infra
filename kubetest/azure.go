@@ -501,14 +501,17 @@ func (c *Cluster) buildCcm() error {
 	log.Println("Building ccm.")
 
 	projectPath := util.K8s("cloud-provider-azure")
-	cmd = exec.Command("cd", projectPath)
+	log.Printf("projectPath %v", projectPath)
+	cmd = exec.Command("docker", "build", "-t", image, ".")
+	cmd.Dir = projectPath
+	cmd.Stdout = ioutil.Discard
+	cwd, _ = os.Getwd()
+	log.Printf("after cmd.dir: CWD %v", cwd)
 	if err = control.FinishRunning(cmd); err != nil {
 		return err
 	}
-	cwd, _ = os.Getwd()
-	log.Printf("new CWD %v", cwd)
-
-	cmd = exec.Command("docker", "build", "-t", image, ".")
+	cmd = exec.Command("git", "remote", "-v")
+	cmd.Dir = projectPath
 	cmd.Stdout = ioutil.Discard
 	if err = control.FinishRunning(cmd); err != nil {
 		return err

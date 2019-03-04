@@ -449,7 +449,7 @@ func (c *Cluster) buildHyperKube() error {
 	pushHyperkube := util.K8s("kubernetes", "hack", "dev-push-hyperkube.sh")
 	cmd = exec.Command(pushHyperkube)
 	// dev-push-hyperkube will produce a lot of output to stdout. We should capture the output here.
-	cmd.Stdout = ioutil.Discard
+	// cmd.Stdout = ioutil.Discard
 	if err1 := control.FinishRunning(cmd); err1 != nil {
 		return err1
 	}

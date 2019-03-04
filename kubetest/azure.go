@@ -504,15 +504,16 @@ func (c *Cluster) buildCcm() error {
 	log.Printf("projectPath %v", projectPath)
 	cmd = exec.Command("docker", "build", "-t", image, ".")
 	cmd.Dir = projectPath
-	cmd.Stdout = ioutil.Discard
-	cwd, _ = os.Getwd()
-	log.Printf("after cmd.dir: CWD %v", cwd)
 	if err = control.FinishRunning(cmd); err != nil {
 		return err
 	}
 	cmd = exec.Command("git", "remote", "-v")
 	cmd.Dir = projectPath
-	cmd.Stdout = ioutil.Discard
+	if err = control.FinishRunning(cmd); err != nil {
+		return err
+	}
+	cmd = exec.Command("git", "status")
+	cmd.Dir = projectPath
 	if err = control.FinishRunning(cmd); err != nil {
 		return err
 	}

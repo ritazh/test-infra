@@ -34,6 +34,8 @@ import (
 	"time"
 
 	"github.com/pelletier/go-toml"
+	"k8s.io/test-infra/kubetest/e2e"
+	"k8s.io/test-infra/kubetest/process"
 	"k8s.io/test-infra/kubetest/util"
 
 	"github.com/Azure/azure-storage-blob-go/2016-05-31/azblob"
@@ -507,16 +509,6 @@ func (c *Cluster) buildCcm() error {
 	if err = control.FinishRunning(cmd); err != nil {
 		return err
 	}
-	cmd = exec.Command("git", "remote", "-v")
-	cmd.Dir = projectPath
-	if err = control.FinishRunning(cmd); err != nil {
-		return err
-	}
-	cmd = exec.Command("git", "status")
-	cmd.Dir = projectPath
-	if err = control.FinishRunning(cmd); err != nil {
-		return err
-	}
 
 	cmd = exec.Command("docker", "push", image)
 	cmd.Stdout = ioutil.Discard
@@ -737,3 +729,20 @@ func (c Cluster) IsUp() error {
 }
 
 func (_ Cluster) KubectlCommand() (*exec.Cmd, error) { return nil, nil }
+
+// BuildTester returns a standard ginkgo-script tester
+func (c *Cluster) BuildTester(o *e2e.BuildTesterOptions) (e2e.Tester, error) {
+	return &GinkgoCustomTester{}, nil
+}
+// GinkgoCustomTester implements Tester by calling a custom ginkgo script
+type GinkgoCustomTester struct {
+}
+
+// Run executes custom ginkgo script
+func (t *GinkgoCustomTester) Run(control *process.Control, testArgs []string) error {
+	cmd := exec.Command("ginkgo", "./tests/e2e/")
+	projectPath := util.K8s("cloud-provider-azure")
+	log.Printf("projectPath %v", projectPath)
+	cmd.Dir = projectPath
+	return control.FinishRunning(cmd)
+}

@@ -196,23 +196,6 @@ func run(deploy deployer, o options) error {
 					errs = util.AppendError(errs, control.XMLWrap(&suite, "Test", func() error {
 						return tester.Run(control, testArgs)
 					}))
-					projectPath := util.K8s("cloud-provider-azure")
-					log.Printf("projectPath %v", projectPath)
-					cmd = exec.Command("ls", "./tests/e2e/_report")
-					cmd.Dir = projectPath
-					control.FinishRunning(cmd)
-
-					artifactsDir, ok := os.LookupEnv("ARTIFACTS")
-					if !ok {
-						artifactsDir = filepath.Join(os.Getenv("WORKSPACE"), "_artifacts")
-					}
-					log.Printf("artifactsDir %v", artifactsDir)
-					cmd = exec.Command("cp", "tests/e2e/_report/*", artifactsDir)
-					cmd.Dir = projectPath
-					control.FinishRunning(cmd)
-
-					cmd = exec.Command("ls", artifactsDir)
-					control.FinishRunning(cmd)
 				}
 			}
 		}
@@ -256,6 +239,24 @@ func run(deploy deployer, o options) error {
 	}
 
 	if dump != "" {
+		log.Printf("now dump")
+		projectPath := util.K8s("cloud-provider-azure")
+		log.Printf("projectPath %v", projectPath)
+		cmd = exec.Command("ls", "./tests/e2e/_report")
+		cmd.Dir = projectPath
+		control.FinishRunning(cmd)
+
+		artifactsDir, ok := os.LookupEnv("ARTIFACTS")
+		if !ok {
+			artifactsDir = filepath.Join(os.Getenv("WORKSPACE"), "_artifacts")
+		}
+		log.Printf("artifactsDir %v", artifactsDir)
+		cmd = exec.Command("cp", "tests/e2e/_report/*", artifactsDir)
+		cmd.Dir = projectPath
+		control.FinishRunning(cmd)
+
+		cmd = exec.Command("ls", artifactsDir)
+		control.FinishRunning(cmd)
 		errs = append(errs, dumpRemoteLogs(deploy, o, dump, "")...)
 	}
 

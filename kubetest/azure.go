@@ -687,7 +687,8 @@ func (c Cluster) Down() error {
 }
 
 func (c Cluster) DumpClusterLogs(localPath, gcsPath string) error {
-	return nil
+	log.Printf("azure DumpClusterLogs")
+	return defaultDumpClusterLogs(localPath, gcsPath)
 }
 
 func (c Cluster) GetClusterCreated(clusterName string) (time.Time, error) {
@@ -750,6 +751,6 @@ func (t *GinkgoCustomTester) Run(control *process.Control, testArgs []string) er
 	log.Printf("projectPath %v", projectPath)
 	cmd.Dir = projectPath
 	testErr := control.FinishRunning(cmd)
-	
+
 	return testErr
 }

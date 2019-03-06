@@ -65,6 +65,7 @@ var (
 	acsOrchestratorRelease = flag.String("acsengine-orchestratorRelease", "", "Orchestrator Profile for acs-engine")
 	acsWinZipBuildScript   = flag.String("acsengine-winZipBuildScript", "https://raw.githubusercontent.com/Azure/acs-engine/master/scripts/build-windows-k8s.sh", "Build script to create custom zip containing win binaries for acs-engine")
 	acsNetworkPlugin       = flag.String("acsengine-networkPlugin", "azure", "Network pluging to use with acs-engine")
+	testCcm                = flag.Bool("test-ccm", false, "Set to True if you want kubetest to run e2e tests for ccm")
 )
 
 type Creds struct {
@@ -732,6 +733,9 @@ func (_ Cluster) KubectlCommand() (*exec.Cmd, error) { return nil, nil }
 
 // BuildTester returns a standard ginkgo-script tester
 func (c *Cluster) BuildTester(o *e2e.BuildTesterOptions) (e2e.Tester, error) {
+	if *testCcm != true {
+		return &GinkgoScriptTester{}, nil
+	}
 	return &GinkgoCustomTester{}, nil
 }
 // GinkgoCustomTester implements Tester by calling a custom ginkgo script

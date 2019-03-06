@@ -750,27 +750,6 @@ func (t *GinkgoCustomTester) Run(control *process.Control, testArgs []string) er
 	log.Printf("projectPath %v", projectPath)
 	cmd.Dir = projectPath
 	testErr := control.FinishRunning(cmd)
-	cmd = exec.Command("ls", "./tests/e2e/")
-	cmd.Dir = projectPath
-	err := control.FinishRunning(cmd)
-	if err != nil {
-		return err
-	}
-	artifactsDir, ok := os.LookupEnv("ARTIFACTS")
-	if !ok {
-		artifactsDir = filepath.Join(os.Getenv("WORKSPACE"), "_artifacts")
-	}
-	log.Printf("artifactsDir %v", artifactsDir)
-	cmd = exec.Command("cp", "tests/e2e/_report/*", artifactsDir)
-	cmd.Dir = projectPath
-	err = control.FinishRunning(cmd)
-	if err != nil {
-		return err
-	}
-	cmd = exec.Command("ls", artifactsDir)
-	err = control.FinishRunning(cmd)
-	if err != nil {
-		return err
-	}
+	
 	return testErr
 }

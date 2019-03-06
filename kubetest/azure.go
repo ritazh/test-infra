@@ -745,9 +745,32 @@ type GinkgoCustomTester struct {
 
 // Run executes custom ginkgo script
 func (t *GinkgoCustomTester) Run(control *process.Control, testArgs []string) error {
-	cmd := exec.Command("go", "test", "./tests/e2e/", "-timeout", "0")
+	cmd := exec.Command("go", "test", "./tests/e2e/", "--ginkgo.focus=Service with annotation")
 	projectPath := util.K8s("cloud-provider-azure")
 	log.Printf("projectPath %v", projectPath)
 	cmd.Dir = projectPath
-	return control.FinishRunning(cmd)
+	testErr := control.FinishRunning(cmd)
+	cmd = exec.Command("ls", "./tests/e2e/_report")
+	cmd.Dir = projectPath
+	err := control.FinishRunning(cmd)
+	if err != nil {
+		return err
+	}
+	artifactsDir, ok := os.LookupEnv("ARTIFACTS")
+	if !ok {
+		artifactsDir = filepath.Join(os.Getenv("WORKSPACE"), "_artifacts")
+	}
+	log.Printf("artifactsDir %v", artifactsDir)
+	cmd.Dir = projectPath
+	cmd = exec.Command("cp", "-r", "./tests/e2e/_report", artifactsDir)
+	err = control.FinishRunning(cmd)
+	if err != nil {
+		return err
+	}
+	cmd = exec.Command("ls", artifactsDir)
+	err = control.FinishRunning(cmd)
+	if err != nil {
+		return err
+	}
+	return testErr
 }

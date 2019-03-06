@@ -177,9 +177,9 @@ func run(deploy deployer, o options) error {
 		} else if err := control.XMLWrap(&suite, "IsUp", deploy.IsUp); err != nil {
 			errs = util.AppendError(errs, err)
 		} else {
-			if o.deployment != "conformance" {
-				errs = util.AppendError(errs, control.XMLWrap(&suite, "kubectl version", func() error { return getKubectlVersion(deploy) }))
-			}
+			// if o.deployment != "conformance" {
+			// 	errs = util.AppendError(errs, control.XMLWrap(&suite, "kubectl version", func() error { return getKubectlVersion(deploy) }))
+			// }
 
 			if o.skew {
 				errs = util.AppendError(errs, control.XMLWrap(&suite, "SkewTest", func() error {

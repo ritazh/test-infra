@@ -736,6 +736,7 @@ func (c *Cluster) BuildTester(o *e2e.BuildTesterOptions) (e2e.Tester, error) {
 	if *testCcm != true {
 		return &GinkgoScriptTester{}, nil
 	}
+	log.Printf("running go tests directly")
 	return &GinkgoCustomTester{}, nil
 }
 // GinkgoCustomTester implements Tester by calling a custom ginkgo script
@@ -744,7 +745,7 @@ type GinkgoCustomTester struct {
 
 // Run executes custom ginkgo script
 func (t *GinkgoCustomTester) Run(control *process.Control, testArgs []string) error {
-	cmd := exec.Command("ginkgo", "./tests/e2e/")
+	cmd := exec.Command("go", "test", "./tests/e2e/", "-timeout", "0")
 	projectPath := util.K8s("cloud-provider-azure")
 	log.Printf("projectPath %v", projectPath)
 	cmd.Dir = projectPath

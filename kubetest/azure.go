@@ -687,8 +687,7 @@ func (c Cluster) Down() error {
 }
 
 func (c Cluster) DumpClusterLogs(localPath, gcsPath string) error {
-	log.Printf("azure DumpClusterLogs")
-	return defaultDumpClusterLogs(localPath, gcsPath)
+	return nil
 }
 
 func (c Cluster) GetClusterCreated(clusterName string) (time.Time, error) {
@@ -746,6 +745,14 @@ type GinkgoCustomTester struct {
 
 // Run executes custom ginkgo script
 func (t *GinkgoCustomTester) Run(control *process.Control, testArgs []string) error {
+	artifactsDir, ok := os.LookupEnv("ARTIFACTS")
+	if !ok {
+		artifactsDir = filepath.Join(os.Getenv("WORKSPACE"), "_artifacts")
+	}
+	log.Printf("artifactsDir %v", artifactsDir)
+	if err := os.Setenv("CCM_JUNIT_REPORT_DIR", artifactsDir); err != nil {
+		return err
+	}
 	cmd := exec.Command("go", "test", "./tests/e2e/", "--ginkgo.focus=Service with annotation")
 	projectPath := util.K8s("cloud-provider-azure")
 	log.Printf("projectPath %v", projectPath)

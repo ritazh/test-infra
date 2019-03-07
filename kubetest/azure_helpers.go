@@ -75,6 +75,7 @@ type WindowsProfile struct {
 	WindowsDockerVersion  string `json:"windowsDockerVersion"`
 	SSHEnabled            bool   `json:"sshEnabled,omitempty"`
 }
+
 // KubernetesContainerSpec defines configuration for a container spec
 type KubernetesContainerSpec struct {
 	Name           string `json:"name,omitempty"`
@@ -84,6 +85,7 @@ type KubernetesContainerSpec struct {
 	CPULimits      string `json:"cpuLimits,omitempty"`
 	MemoryLimits   string `json:"memoryLimits,omitempty"`
 }
+
 // KubernetesAddon defines a list of addons w/ configuration to include with the cluster deployment
 type KubernetesAddon struct {
 	Name       string                    `json:"name,omitempty"`
@@ -93,15 +95,19 @@ type KubernetesAddon struct {
 	Data       string                    `json:"data,omitempty"`
 }
 type KubernetesConfig struct {
-	CustomWindowsPackageURL    string `json:"customWindowsPackageURL,omitempty"`
-	CustomHyperkubeImage       string `json:"customHyperkubeImage,omitempty"`
-	CustomCcmImage             string `json:"customCcmImage,omitempty"` // Image for cloud-controller-manager
-	UseCloudControllerManager  *bool  `json:"useCloudControllerManager,omitempty"`
-	NetworkPlugin              string `json:"networkPlugin,omitempty"`
-	PrivateAzureRegistryServer string `json:"privateAzureRegistryServer,omitempty"`
-	AzureCNIURLLinux           string `json:"azureCNIURLLinux,omitempty"`
-	AzureCNIURLWindows         string `json:"azureCNIURLWindows,omitempty"`
-	Addons                     []KubernetesAddon `json:"addons,omitempty"`
+	CustomWindowsPackageURL      string            `json:"customWindowsPackageURL,omitempty"`
+	CustomHyperkubeImage         string            `json:"customHyperkubeImage,omitempty"`
+	CustomCcmImage               string            `json:"customCcmImage,omitempty"` // Image for cloud-controller-manager
+	UseCloudControllerManager    *bool             `json:"useCloudControllerManager,omitempty"`
+	NetworkPlugin                string            `json:"networkPlugin,omitempty"`
+	PrivateAzureRegistryServer   string            `json:"privateAzureRegistryServer,omitempty"`
+	AzureCNIURLLinux             string            `json:"azureCNIURLLinux,omitempty"`
+	AzureCNIURLWindows           string            `json:"azureCNIURLWindows,omitempty"`
+	Addons                       []KubernetesAddon `json:"addons,omitempty"`
+	NetworkPolicy                string            `json:"networkPolicy,omitempty"`
+	CloudProviderRateLimitQPS    float64           `json:"cloudProviderRateLimitQPS,omitempty"`
+	CloudProviderRateLimitBucket int               `json:"cloudProviderRateLimitBucket,omitempty"`
+	APIServerConfig              map[string]string `json:"apiServerConfig,omitempty"`
 }
 type OrchestratorProfile struct {
 	OrchestratorType    string            `json:"orchestratorType"`

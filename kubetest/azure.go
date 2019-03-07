@@ -755,6 +755,7 @@ func (c *Cluster) BuildTester(o *e2e.BuildTesterOptions) (e2e.Tester, error) {
 	log.Printf("running go tests directly")
 	return &GinkgoCustomTester{}, nil
 }
+
 // GinkgoCustomTester implements Tester by calling a custom ginkgo script
 type GinkgoCustomTester struct {
 }

@@ -239,7 +239,9 @@ func (c *Cluster) populateApiModelTemplate() error {
 	if v.Properties.OrchestratorProfile.KubernetesConfig == nil {
 		v.Properties.OrchestratorProfile.KubernetesConfig = &KubernetesConfig{}
 	}
-	v.Properties.OrchestratorProfile.KubernetesConfig.NetworkPlugin = c.networkPlugin // default Azure
+	if v.Properties.OrchestratorProfile.KubernetesConfig.NetworkPolicy != "none" && v.Properties.OrchestratorProfile.KubernetesConfig.NetworkPlugin == "" {
+		v.Properties.OrchestratorProfile.KubernetesConfig.NetworkPlugin = c.networkPlugin // default Azure
+	}
 	if c.dnsPrefix != "" {
 		v.Properties.MasterProfile.DNSPrefix = c.dnsPrefix
 	}

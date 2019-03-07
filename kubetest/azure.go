@@ -753,7 +753,7 @@ func (t *GinkgoCustomTester) Run(control *process.Control, testArgs []string) er
 	if err := os.Setenv("CCM_JUNIT_REPORT_DIR", artifactsDir); err != nil {
 		return err
 	}
-	cmd := exec.Command("go", "test", "./tests/e2e/", "--ginkgo.focus=Service with annotation")
+	cmd := exec.Command("go", "test", "./tests/e2e/")
 	projectPath := util.K8s("cloud-provider-azure")
 	log.Printf("projectPath %v", projectPath)
 	cmd.Dir = projectPath

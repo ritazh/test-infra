@@ -695,7 +695,23 @@ func (c Cluster) GetClusterCreated(clusterName string) (time.Time, error) {
 }
 
 func (c Cluster) TestSetup() error {
-
+	if *testCcm == true {
+		if err := os.Setenv("K8S_AZURE_TENANTID", c.credentials.TenantID); err != nil {
+			return err
+		}
+		if err := os.Setenv("K8S_AZURE_SUBSID", c.credentials.SubscriptionID); err != nil {
+			return err
+		}
+		if err := os.Setenv("K8S_AZURE_SPID", c.credentials.ClientID); err != nil {
+			return err
+		}
+		if err := os.Setenv("K8S_AZURE_SPSEC", c.credentials.ClientSecret); err != nil {
+			return err
+		}
+		if err := os.Setenv("K8S_AZURE_LOCATION", c.location); err != nil {
+			return err
+		}
+	}
 	// Download repo-list that defines repositories for Windows test images.
 
 	downloadUrl, ok := os.LookupEnv("KUBE_TEST_REPO_LIST_DOWNLOAD_LOCATION")
@@ -753,7 +769,7 @@ func (t *GinkgoCustomTester) Run(control *process.Control, testArgs []string) er
 	if err := os.Setenv("CCM_JUNIT_REPORT_DIR", artifactsDir); err != nil {
 		return err
 	}
-	cmd := exec.Command("go", "test", "./tests/e2e/", "-timeout", "0")
+	cmd := exec.Command("make", "test-ccm-e2e")
 	projectPath := util.K8s("cloud-provider-azure")
 	log.Printf("projectPath %v", projectPath)
 	cmd.Dir = projectPath

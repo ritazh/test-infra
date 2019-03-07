@@ -75,7 +75,23 @@ type WindowsProfile struct {
 	WindowsDockerVersion  string `json:"windowsDockerVersion"`
 	SSHEnabled            bool   `json:"sshEnabled,omitempty"`
 }
-
+// KubernetesContainerSpec defines configuration for a container spec
+type KubernetesContainerSpec struct {
+	Name           string `json:"name,omitempty"`
+	Image          string `json:"image,omitempty"`
+	CPURequests    string `json:"cpuRequests,omitempty"`
+	MemoryRequests string `json:"memoryRequests,omitempty"`
+	CPULimits      string `json:"cpuLimits,omitempty"`
+	MemoryLimits   string `json:"memoryLimits,omitempty"`
+}
+// KubernetesAddon defines a list of addons w/ configuration to include with the cluster deployment
+type KubernetesAddon struct {
+	Name       string                    `json:"name,omitempty"`
+	Enabled    *bool                     `json:"enabled,omitempty"`
+	Containers []KubernetesContainerSpec `json:"containers,omitempty"`
+	Config     map[string]string         `json:"config,omitempty"`
+	Data       string                    `json:"data,omitempty"`
+}
 type KubernetesConfig struct {
 	CustomWindowsPackageURL    string `json:"customWindowsPackageURL,omitempty"`
 	CustomHyperkubeImage       string `json:"customHyperkubeImage,omitempty"`
@@ -85,6 +101,7 @@ type KubernetesConfig struct {
 	PrivateAzureRegistryServer string `json:"privateAzureRegistryServer,omitempty"`
 	AzureCNIURLLinux           string `json:"azureCNIURLLinux,omitempty"`
 	AzureCNIURLWindows         string `json:"azureCNIURLWindows,omitempty"`
+	Addons                     []KubernetesAddon `json:"addons,omitempty"`
 }
 type OrchestratorProfile struct {
 	OrchestratorType    string            `json:"orchestratorType"`

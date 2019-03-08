@@ -144,7 +144,7 @@ func checkParams() error {
 		*acsResourceName = "kubetest-" + uuid.NewV1().String()
 	}
 	if *acsResourceGroupName == "" {
-		*acsResourceGroupName = *acsResourceName + "-rg"
+		*acsResourceGroupName = *acsResourceName
 	}
 	if *acsDnsPrefix == "" {
 		*acsDnsPrefix = *acsResourceName

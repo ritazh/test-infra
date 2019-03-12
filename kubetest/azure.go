@@ -755,7 +755,7 @@ func (t *GinkgoCustomTester) Run(control *process.Control, testArgs []string) er
 	if err := os.Setenv("CCM_JUNIT_REPORT_DIR", artifactsDir); err != nil {
 		return err
 	}
-	cmd := exec.Command("go", "test", "./tests/e2e/", "-timeout", "0", "--ginkgo.skip=Cluster\\ssize\\sautoscaler")
+	cmd := exec.Command("./hack/run-e2e-tests.sh", testArgs...)
 	projectPath := util.K8s("cloud-provider-azure")
 	cmd.Dir = projectPath
 	testErr := control.FinishRunning(cmd)
